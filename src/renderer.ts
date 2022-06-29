@@ -16,12 +16,14 @@ const removePendingRequestId = (requestId: string) => {
   delete pendingRequests[requestId];
 };
 
-export const emit = <
-  Action extends string = string,
-  Payload = any,
-  Notification = any
->(
-  action: Action,
+const undefinedNotifier = (action: string) => () => {
+  console.warn(
+    `You forgot to define a notifier function for the ${action} action.`
+  );
+};
+
+export const emit = <Payload = any, Notification = any>(
+  action: string,
   payload?: Payload,
   notifier?: NotificationCallback<Notification>
 ) => {
@@ -30,13 +32,7 @@ export const emit = <
   ipcRenderer.send('asyncRequest', requestId, action, payload);
 
   const deferred = new Deferred();
-  notifier =
-    notifier ||
-    (() => {
-      console.warn(
-        `You forgot to define a notifier function for the ${action} action.`
-      );
-    });
+  notifier = notifier ?? undefinedNotifier(action);
   pendingRequests[requestId] = { deferred, action, payload, notifier };
 
   return deferred.promise;

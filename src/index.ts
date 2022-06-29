@@ -1,4 +1,2 @@
-import {setupMainHandler} from './main';
-import {emit, setupFrontendListener, pendingRequests} from './renderer';
-
-export {emit, setupMainHandler, setupFrontendListener, pendingRequests};
+export { setupMainHandler } from './main';
+export { emit, setupFrontendListener, pendingRequests } from './renderer';
