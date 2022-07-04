@@ -1,5 +1,4 @@
-![](https://github.com/krimlabs/eiphop/raw/master/graphics/eiphop-logo.jpg)
-
+# Eipfork - async messaging for electron
 ---
 
 Eipfork is fork of [Eiphop]() rewritten in typescript.
@@ -7,8 +6,6 @@ Eipfork is fork of [Eiphop]() rewritten in typescript.
 ---
 
 ### Installation
-
-The current stable version is `1.0.13`.
 
 ```bash
 npm i eipfork
