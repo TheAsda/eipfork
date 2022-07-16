@@ -24,5 +24,8 @@
   },
   "peerDependencies": {
     "electron": ">=2.0.9"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.23.2"
   }
 }

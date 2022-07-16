@@ -1,7 +1,6 @@
 # Eipfork - async messaging for electron
----
 
-Eipfork is fork of [Eiphop]() rewritten in typescript.
+Eipfork is fork of [Eiphop](https://github.com/krimlabs/eiphop) rewritten in typescript.
 
 ---
 
