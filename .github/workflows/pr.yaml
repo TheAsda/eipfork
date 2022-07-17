@@ -28,14 +28,17 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Build
         run: yarn build
+      - name: Configure npm
+        run: |
+          cat << EOF > "$HOME/.npmrc"
+            //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          EOF
+        env:
+          NPM_TOKEN: ${{ secrets.npm_token }}
       - name: Publish to NPM
         run: |
           yarn changeset version --snapshot pr
           yarn changeset publish --tag pr
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
-          NPM_TOKEN: ${{ secrets.npm_token }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Get released version
         id: version
         run: echo ::set-output name=version::$(node -p "require('./package.json').version")
