@@ -13,6 +13,7 @@
     "build": "rollup --config rollup.config.js"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.23.2",
     "@rollup/plugin-commonjs": "^22.0.1",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-typescript": "^8.3.3",
@@ -24,8 +25,5 @@
   },
   "peerDependencies": {
     "electron": ">=2.0.9"
-  },
-  "dependencies": {
-    "@changesets/cli": "^2.23.2"
   }
 }
