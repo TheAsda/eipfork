@@ -37,7 +37,7 @@ jobs:
       - name: Publish to NPM
         run: |
           yarn changeset version
-          yarn changeset publish --tag latest
+          yarn changeset publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
       - name: Get released version
