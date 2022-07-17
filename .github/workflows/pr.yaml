@@ -1,0 +1,55 @@
+name: PR workflow
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  publish:
+    name: Build and publish snapshot
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Yarn cache path
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+      - name: Load Yarn cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build
+        run: yarn build
+      - name: Configure npm
+        run: |
+          cat << EOF > "$HOME/.npmrc"
+            //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          EOF
+        env:
+          NPM_TOKEN: ${{ secrets.npm_token }}
+      - name: Publish to NPM
+        run: |
+          yarn changeset version --snapshot pr
+          yarn changeset publish --tag pr
+        env:
+          CI: true
+      - name: Get released version
+        id: version
+        run: echo ::set-output name=version::$(node -p "require('./package.json').version")
+      - name: Create comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: ":package: Package published"
+          message: |
+            #### Package published version of package of this pull request
+
+            You can install this version via `eipfork@${{ steps.version.outputs.version }}`
+        
