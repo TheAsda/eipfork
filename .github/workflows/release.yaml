@@ -1,6 +1,9 @@
 name: Publish package to NPM
 
 on:
+  workflow_dispatch:
+    branches:
+      - master
   push:
     paths:
       - 'src/**'
@@ -53,6 +56,7 @@ jobs:
       - name: Commit, tag and push changelog
         run: |
           git add CHANGELOG.md
+          git add package.json
           git commit -m "Release v${{ steps.version.outputs.version }}"
           git tag v${{ steps.version.outputs.version }}
           git push --tags
